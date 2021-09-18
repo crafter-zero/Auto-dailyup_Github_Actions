@@ -7,7 +7,7 @@ from functions import getInfo, replace_char
 
 if __name__ == '__main__':
     # 随机等待1-60秒
-    time.sleep(random.randint(1.60))
+    time.sleep(random.randint(1,60))
     # 获取 学号/位置/密码等信息
     config = getInfo()
     # 登录获得 cookie
