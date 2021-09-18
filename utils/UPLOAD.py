@@ -20,6 +20,7 @@
 @Version     : 0.1-dev
 """
 import requests
+import os
 
 
 DEFAULT_HEADER = {
@@ -121,17 +122,40 @@ def upload_ncov_message(cookie, config):
     :param config: 配置信息
     :return: 无
     """
+    key = os.getenv('SENDKEY','null')
     header = DEFAULT_HEADER
     upload_message = get_upload_msg(config)
     print("您当前的地点：" + upload_message["address"])
     r = requests.post(UPLOAD_URL, cookies=cookie, headers=header, data=upload_message)
     # 上报成功
     if r.json()['e'] == 0:
+        if key != "null" :
+            api = "https://sctapi.ftqq.com/"+key+".send"
+            title = u"每日上报成功"
+            content = """
+            # 成功上报！(^_^)丿
+            """
+            data = {
+                "title":title,
+                "desp":content
+            }
+            rreq = requests.post(api,data=data)
         print("上报成功(^_^)")
         return 0
 
     # 上报失败
     else:
+        if key != "null" :
+            api = "https://sctapi.ftqq.com/"+key+".send"
+            title = u"每日上报失败"
+            content = """
+            # 上报失败...(T_T)
+            """
+            data = {
+                "title":title,
+                "desp":content
+            }
+            rreq = requests.post(api,data=data)
         print("上报出现错误(T_T)")
         print("错误信息: {}".format(r.json()['m']))
         return 1
@@ -150,8 +174,6 @@ def get_upload_msg(config):
         upload_msg = SOUTH_UPLOAD_MSG
     elif location == "3":
         upload_msg = GZ_UPLOAD_MSG
-    elif location == "4":
-        raise RuntimeError("？请认真选择位置")
     else:
         raise RuntimeError("未选择位置信息")
     return upload_msg
