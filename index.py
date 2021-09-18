@@ -3,7 +3,7 @@ from utils import UPLOAD
 from utils import LOGIN
 import time
 import random
-from functions import updateTimeLib, checkTime, getInfo, replace_char
+from functions import getInfo, replace_char
 
 if __name__ == '__main__':
     # 随机等待1-60秒
