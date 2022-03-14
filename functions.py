@@ -39,5 +39,5 @@ def getInfo():
     # 读取密码
     config["passWord"] = env_dist.get('PASSWORD')
     #强制使用广研院地址(1：南校区，2：北校区，3：广研院)
-    config["Location"] = "3" 
+    config["Location"] = "1" 
     return config
